@@ -1,0 +1,212 @@
+Investigación 1: ArrayList
+Investigar que es un arraylists y hacer ejemplos con los tipos de datos
+que se han visto hasta el momento, también mirar los métodos que
+tienen y hacer ejemplos.
+
+
+R/ las arraylist son conjutos de datos; tienen un tamaño dinamico por lo que se facilita agregar o eliminar datos. es una clase que pertenece al java collection framewworwor, a diferencia de los arrays los arraylist no esta disponible de forma nativa en java por lo que se debe importar de la biblioteca java.util.
+
+es una opcion apropiada cuando no se conoce la longitud que debe tener una lista.
+
+una de las desventajas de las arrayslist es el tiempo que tarda en terminar un proceso ya que cuado se realizara un proceso en la lista esta debe recorrerse por completo para dar respuesta.
+
+SINTAXIS DE ArrayList
+
+-importar arraylist:
+
+        import java.util.ArrayList;
+
+-Declaracion de un arraylist:
+
+        ArrayList<Type> ArrayName = new ArrayList<>();
+
+    a la hora de declarar un arraylist de typo entero se utilza integer en lugar de int
+
+        ArrayList<Integer> NumberList = new ArrayList<>();
+
+-metodo .add("dato que se almacenara al final de la lista"):
+    EL metodo .add nos permita agregar datos al arraylist
+
+    import java.util.ArrayList;
+    class Main {
+        public static void main(String[] args){
+            ArrayList<String> colors = new ArrayList<>();
+            colors.add("blue");
+            colors.add("red");
+            colors.add("green");
+            System.out.println("ArrayList: " + colors);
+        }
+    }
+
+
+- metodo .remove(index del elemento a eliminar):
+    El metodo .remove() nos permite eliminar datos del ArrayList
+
+    import java.util.ArrayList;
+    class Main {
+        public static void main(String[] args) {
+            ArrayList<String> colors = new ArrayList<>();
+            colors.add("blue");
+            colors.add("red");
+            colors.add("green");
+            System.out.println("ArrayList: " + colors);
+            String color = colors.remove(1);
+            System.out.println("ArrayList: " + colors);
+            System.out.println("Removed Element: " + color);
+        }
+    }
+
+-metodo .get(index):
+
+    El metodo .get() permite acceder a los elementos del arraylist
+
+    import java.util.ArrayList;
+    class Main {
+        public static void main(String[] args) {
+            ArrayList<String> clothes = new ArrayList<>();
+            clothes.add("jacket");
+            clothes.add("shirt");
+            clothes.add("pullover");
+            System.out.println("ArrayList: " + clothes);
+            String str = clothes.get(2);
+            System.out.print("Element at index 2: " + str);
+        }
+    }
+
+- metodo .set():
+    El metodo .set() nos permite modificar elementos del arraylist
+
+    import java.util.ArrayList;
+    class Main {
+        public static void main(String[] args) {
+            ArrayList<String> colors = new ArrayList<>();
+            colors.add("blue");
+            colors.add("red");
+            colors.add("green");
+            System.out.println("ArrayList: " + colors);
+            colors.set(2, "yellow");
+            System.out.println("Modified ArrayList: " + colors);
+        }
+    }
+
+-metodo .size():
+
+    El elemeton .size() permite calcular la longitud del array 
+
+    import java.util.ArrayList;
+    class Main {
+        public static void main(String[] args) {
+            ArrayList<String> colors = new ArrayList<>();
+            colors.add("blue");
+            colors.add("red");
+            colors.add("green");
+            System.out.println(colors.size());
+        }
+    }
+
+collections.sort(Collections):
+
+    para poder ordenar un arraylist debemos importar la clase cllection de java.util.
+
+    import java.util.ArrayList;
+    import java.util.Collections;
+    public class Main {
+        public static void main(String[] args) {
+            ArrayList<Integer> ages = new ArrayList<Integer>();
+            ages.add(20);
+            ages.add(54);
+            ages.add(17);
+            ages.add(9);
+            Collections.sort(ages);
+            for (int i : ages) {
+                System.out.println(i);
+            }
+        }
+    }
+
+____________________________________________________________________________________
+
+Investigación 2: Map
+Investigar que es un maps y hacer ejemplos con los tipos de datos que se han visto hasta el momento, también mirar los métodos que tienen
+y hacer ejemplos.
+
+MAP
+
+map no hace parte de las colecciones y se declara con una key(clave) y con el valor.
+
+map number = new hasmap();
+
+-metodo put(object_key, object_value):
+
+    para  agregar datos a map utilizamos el metodo put
+
+    number.put(1, "uno");
+    number.put(2, "dos");
+    number.put(3, "tres");
+
+- metodo get(object_key):
+    con el metodo get podemos acceder a valores dentor de map ingresando si key
+
+    number.get(1) // uno
+    numbre.get(2) // dos
+    number.get(3) // tres
+
+- para iterar en map:
+    
+    para iterar en map utilizamos un for pero debemos especificar que dato deseamos traer key o value
+
+    for(object key: number.keyset()){
+        System.out.print(key+" "+number.get(key);
+    }
+
+-metodo remove():
+    para eliminar datos de un map 
+
+    number.remove(1);
+
+-metodo clear():
+
+    para eliminar todos los datos del map
+
+    number.clear();
+
+___________________________________________________________________________________
+
+Investigación 3: OOP
+Investigar sobre los pilares de paradigma orientado a objetos. (Idea)
+
+programacion orientada objetos:
+
+es un paradigma de la programcion que permite representar objetos de la vida real en codigo, los objetos poseen atributos que son las caracteristicas que representan o identifican a esa entidad y metodos que son las acciones que puede realizar.
+
+las clases en la programacion orientada a objetos sirve como plano en el cual se moldearan los objetos que seran unicos y tendran sus propios atributos y metodos.
+
+
+
+abstraccion: es la identificacion de los atributos y metodos mas importantes del un objeto.
+
+encapsulamiento: es el acceso que permitimos a los atributos y metodos de un objeto
+
+herencia: es la utilizacion de una clase para crear una clase nueva que comparte los mismos atributos y metodos aparte de los propios de la nueva clase.
+
+polimorfismo: es la reescripcion de un metodo que funciona de diferentes maneras entre una clase padre y una clase hijo.
+
+
+declaracion de una clase:
+
+    public class Persona {
+        // Atributos
+        private String nombre;
+        private int edad;
+
+        // Constructor
+        public Persona(String nombre, int edad) {
+            this.nombre = nombre;
+            this.edad = edad;
+        }
+
+        // Método
+        public void saludar() {
+            System.out.println("Hola, soy " + nombre + " y tengo " + edad + " años.");
+        }
+    }
