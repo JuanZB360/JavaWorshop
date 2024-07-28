@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Taller_POO/Taller_POO.iml" filepath="$PROJECT_DIR$/Taller_POO/Taller_POO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/taller_de_motos_y_carros/taller_de_motos_y_carros.iml" filepath="$PROJECT_DIR$/taller_de_motos_y_carros/taller_de_motos_y_carros.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trabajojava.iml" filepath="$PROJECT_DIR$/trabajojava.iml" />
+    </modules>
+  </component>
+</project>
