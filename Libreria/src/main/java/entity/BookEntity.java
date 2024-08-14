@@ -71,7 +71,7 @@ public class BookEntity {
     }
 
     public void setAuthor(int author) {
-        Author = author;
+        this.Author = author;
     }
 
     //toString

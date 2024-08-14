@@ -5,10 +5,7 @@ import persistence.IModel.IBookModel;
 import persistence.connectionDataBase.ConnectionDB;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class BookModelImpl implements IBookModel {
@@ -19,16 +16,18 @@ public class BookModelImpl implements IBookModel {
         String sql = "INSERT INTO book(title, age, price, author_id) VALUES (?,?,?,?);";
         
         try{
-            PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, entity.getTitle());
             ps.setString(2, entity.getAge());
             ps.setFloat(3, entity.getPrice());
             ps.setInt(4, entity.getAuthor());
-            ps.executeUpdate();
+            ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()){
-                entity.setId(rs.getInt("id"));
+                entity.setId(rs.getInt(1));
             }
+            ps.close();
+            rs.close();
             return entity;
         }catch(SQLException e){
             throw new RuntimeException("Error create: "+e.getMessage());
@@ -39,22 +38,21 @@ public class BookModelImpl implements IBookModel {
     }
 
     @Override
-    public void delete(BookEntity entity) throws ClassNotFoundException {
+    public Boolean delete(BookEntity entity) throws ClassNotFoundException {
         Connection connection = ConnectionDB.openConnection();
         
         String sql = "DELETE FROM book WHERE id =?";
+
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, entity.getId());
-            ps.executeUpdate();
-            int rowAffected = ps.executeUpdate();
-            if(rowAffected > 0) {
-                JOptionPane.showMessageDialog(null,"delete complete...");
-            }else {
-                JOptionPane.showMessageDialog(null,"delete fail...");
-            }
+            ps.execute();
+
+            return true;
+
         } catch(SQLException e){
-            throw new RuntimeException("Error delete: "+e.getMessage());
+            JOptionPane.showMessageDialog(null,"delete fail...");
+            return false;
         } finally {
             ConnectionDB.closeConnection();
         }
@@ -77,11 +75,13 @@ public class BookModelImpl implements IBookModel {
             int rowAffected = ps.executeUpdate();
             if(rowAffected == 0) {
                 JOptionPane.showMessageDialog(null,"update fail...");
+                ps.close();
                 return null;
             }else {
                 JOptionPane.showMessageDialog(null, "update complete...");
+                ps.close();
+                return entity;
             }
-            return entity;
 
         }catch(SQLException e){
             throw new RuntimeException("Error update: "+e.getMessage());
@@ -103,6 +103,8 @@ public class BookModelImpl implements IBookModel {
                 BookEntity author = new BookEntity(rs.getInt("id"),rs.getString("title"),rs.getString("age"),rs.getFloat("price"),rs.getInt("author_id"));
                 list.add(author);
             }
+            rs.close();
+            ps.close();
             return list;
         }catch(SQLException e){
             throw new RuntimeException("Error of search: "+e.getMessage());
@@ -112,27 +114,43 @@ public class BookModelImpl implements IBookModel {
     }
 
     @Override
-    public BookEntity readById(BookEntity value) throws ClassNotFoundException {
+    public ArrayList<BookEntity> readById(BookEntity value) throws ClassNotFoundException {
         Connection connection = ConnectionDB.openConnection();
-
-        String sql = "SELECT * as author FROM book WHERE id =? OR title = ? OR age = ?;";
+        ArrayList<BookEntity> list = new ArrayList<>();
+        String sql = "SELECT * FROM book WHERE id = ? OR title = ? OR author_id = ?;";
 
         try{
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, value.getId());
             ps.setString(2, value.getTitle());
-            ps.setString(3, value.getAge());
+            ps.setInt(3, value.getAuthor());
 
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                BookEntity author = new BookEntity(rs.getInt("id"),rs.getString("title"),rs.getString("age"),rs.getFloat("price"),rs.getInt("author_id"));
-                return author;
+            while(rs.next()){
+                BookEntity search = new BookEntity();
+                search.setId(rs.getInt("id"));
+                search.setTitle(rs.getString("title"));
+                search.setAge(rs.getString("age"));
+                search.setPrice(rs.getFloat("price"));
+                search.setAuthor(rs.getInt("author_id"));
+                list.add(search);
             }
-            return null;
+
+            ps.close();
+            rs.close();
+            return list;
         }catch(SQLException e){
             throw new RuntimeException("Error of search: "+e.getMessage());
         }finally{
             ConnectionDB.closeConnection();
         }
     }
+
+//    public static void main(String[] args) throws ClassNotFoundException {
+//        BookModelImpl model = new BookModelImpl();
+//        BookEntity book = new BookEntity("cien años de soledad","2010",30000,2);
+//        BookEntity create = new BookEntity();
+//        create = model.create(book);
+//        JOptionPane.showMessageDialog(null, create);
+//    }
 }

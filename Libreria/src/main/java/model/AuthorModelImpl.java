@@ -39,7 +39,7 @@ public class AuthorModelImpl implements IAuthorModel {
     }
 
     @Override
-    public void delete(AuthorEntity request) throws ClassNotFoundException {
+    public AuthorEntity delete(AuthorEntity request) throws ClassNotFoundException {
         Connection connection = ConnectionDB.openConnection();
 
         String sql = "DELETE FROM author WHERE id =?";
@@ -51,6 +51,7 @@ public class AuthorModelImpl implements IAuthorModel {
             ps.execute();
 
             JOptionPane.showMessageDialog(null,"Delete Complete...");
+            return request;
 
         }catch(SQLException e){
             throw new RuntimeException("Error deleting: " + e.getMessage());
@@ -72,7 +73,8 @@ public class AuthorModelImpl implements IAuthorModel {
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()){
-                request = new AuthorEntity(rs.getInt("id"), rs.getString("name"), rs.getString("nationality"));
+                request.setName(rs.getString("name"));
+                request.setNationality(rs.getString("nationality"));
             }
             return request;
 
@@ -127,4 +129,15 @@ public class AuthorModelImpl implements IAuthorModel {
             ConnectionDB.closeConnection();
         }
     }
+
+//    public static void main(String[] args) throws ClassNotFoundException {
+//        AuthorEntity entity = new AuthorEntity("juan","colombia");
+//        AuthorModelImpl model = new AuthorModelImpl();
+//        AuthorEntity entity2= new AuthorEntity();
+////        entity2 = model.readById(entity);
+////        JOptionPane.showMessageDialog(null,entity2);
+//        entity2 = model.create(entity);
+//        JOptionPane.showMessageDialog(null,entity2);
+//
+//    }
 }

@@ -1,5 +1,5 @@
 package persistence.CRUD;
 
-public interface Delete <T>{
-    public void delete(T entity) throws ClassNotFoundException;
+public interface Delete <A,T>{
+    public A delete(T entity) throws ClassNotFoundException;
 }
